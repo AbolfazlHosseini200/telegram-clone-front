@@ -1,0 +1,17 @@
+/* User.css */
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-picture {
+    width: 150px; /* Or any size you prefer */
+    height: 150px;
+    border-radius: 50%; /* Makes the image round */
+    margin-bottom: 20px;
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+}
+
+/* Add more styles as needed */

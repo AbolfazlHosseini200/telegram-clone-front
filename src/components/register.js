@@ -6,8 +6,8 @@ import './Register.css'; // You should create a corresponding CSS file for styli
 function Register() {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         bio: '',
         phone: '',
         username: '',

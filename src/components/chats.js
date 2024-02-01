@@ -7,6 +7,31 @@ const ChatList = () => {
     const authToken = localStorage.getItem('authToken');
     const username = localStorage.getItem('username');
     const navigate = useNavigate()
+    const [inputValue, setInputValue] = useState('');
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const handleSearchClick = () => {
+        navigate("/profile/" + inputValue);
+    };
+    const handleProfileClick = (contact) => {
+        navigate("/profile/"+contact)
+    }
+    const create_date = (date) => {
+        const dateObject = new Date(date);
+
+        const humanReadableDate = dateObject.toLocaleString('en-US', {
+            day: 'numeric', // numeric, 2-digit
+            year: 'numeric', // numeric, 2-digit
+            month: 'long', // numeric, 2-digit, long, short, narrow
+            hour: 'numeric', // numeric, 2-digit
+            minute: 'numeric', // numeric, 2-digit
+            timeZone: 'Asia/Tehran', // Set the timezone to Tehran
+            hour12: true // true for AM/PM, false for 24-hour clock
+        });
+        return humanReadableDate
+    }
     useEffect(() => {
         const fetchChats = async () => {
             try {
@@ -44,22 +69,34 @@ const ChatList = () => {
             <div className="chat-header">
                 <span className="header-title">Chats</span>
                 <div className="search-container">
-                    <input type="text" placeholder="Search user" className="search-input" />
-                    <button className="search-button">🔍</button>
+                    <input
+                        type="text"
+                        placeholder="Search user"
+                        className="search-input"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
+                    <button className="search-button" onClick={handleSearchClick}>
+                        🔍
+                    </button>
                 </div>
                 <div className="header-buttons">
-                    <button className="header-button">Contacts👥</button>
-                    <button  className="new-conversation-button">start new conversation</button>
+                    <button className="header-button" onClick={()=>navigate("/contacts")}>Contacts👥</button>
+                    {/* <button  className="new-conversation-button">start new conversation</button> */}
+                    <button className='new-conversation-button' onClick={()=>navigate("/create-group")}>Create New Group</button>
                 </div>
             </div>
             {chats.map((chat) => (
-                <div key={chat.contact} className="chat-item" onClick={() => {navigate("/chats/"+chat.ID)}}>
-                    <img src={`http://localhost:8888/get-profile-pic/${chat.contact}-profilePic.jpg`} className="user-picture" />
-                    <div className="user-info">
-                        <div className="user-name">{chat.contact}</div>
+                <div key={chat.contact} className="chat-item" >
+                    <img src={`http://localhost:8888/get-profile-pic/${chat.contact}-profilePic.jpg`} className="user-picture" onClick={()=>handleProfileClick(chat.contact)}/>
+                    <div className="user-info" onClick={() => {navigate("/chats/"+chat.ID)}}>
+                        <div className="user-name">{chat.ChatName?chat.ChatName:chat.contact}</div>
                         <div className={`user-status ${chat.online ? 'online' : 'offline'}`}>
                             {chat.online ? 'online' : 'offline'}
                         </div>
+                    </div>
+                    <div>
+                        {create_date(chat.CreatedAt)}
                     </div>
                     {/* Add red notification dot here if there are unread messages */}
                     {/*{chat.unread && <div className="unread-dot"></div>}*/}

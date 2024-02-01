@@ -2,6 +2,9 @@ import Login from "./components/login";
 import Register from "./components/register";
 import ChatList from "./components/chats";
 import ChatPage from "./components/chatpage"
+import User from "./components/user"
+import Contacts from "./components/contacts"
+import CreateGroup from "./components/createGroup";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -14,6 +17,9 @@ function App() {
                 <Route path="/" element={<Navigate replace to="/login" />} />
                 <Route path="/chats" element={<ChatList />} />
                 <Route path="/chats/:chatid" element={<ChatPage />} />
+                <Route path="/profile/:username" element={<User />}/>
+                <Route path="/contacts" element={<Contacts />}/>
+                <Route path="/create-group" element={<CreateGroup />}/>
             </Routes>
         </Router>
     );

@@ -13,6 +13,20 @@ function ChatPage() {
     
 
     // Function to fetch messages
+    const create_date = (date) => {
+        const dateObject = new Date(date);
+
+        const humanReadableDate = dateObject.toLocaleString('en-US', {
+            day: 'numeric', // numeric, 2-digit
+            year: 'numeric', // numeric, 2-digit
+            month: 'long', // numeric, 2-digit, long, short, narrow
+            hour: 'numeric', // numeric, 2-digit
+            minute: 'numeric', // numeric, 2-digit
+            timeZone: 'Asia/Tehran', // Set the timezone to Tehran
+            hour12: true // true for AM/PM, false for 24-hour clock
+        });
+        return humanReadableDate
+    }
     const fetchMessages = async () => {
         try {
             const response = await axios.get(`http://localhost:8888/get-messages/${chatid}`,{
@@ -79,13 +93,19 @@ function ChatPage() {
 
     return (
         <div>
+            <div>
+                
+            </div>
             <div className="messages-list">
                 {messages.map((message, index) => (
+                    <div>
+                        <span>----------------------------{create_date(message.CreatedAt)}--------------------------------</span>
                     <div key={index}>
                         {message.Sender === username ? "You" : message.Sender}: {message.Text}
                         {message.File && imageUrls[message.id] && (
                             <img src={imageUrls[message.id]} alt="Chat Attachment" />
                             )}
+                    </div>
                     </div>
                     ))}
             </div>
